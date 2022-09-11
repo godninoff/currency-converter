@@ -9,66 +9,64 @@ const App = () => {
   const [currency, setCurrency] = React.useState([]);
   const [inputFrom, setInputFrom] = React.useState(1);
   const [inputTo, setInputTo] = React.useState(1);
-  const [currencyFrom, setCurrencyFrom] = React.useState(location);
-  const [currencyTo, setCurrencyTo] = React.useState("USD");
-  const [amountInFromCurrency, setAmountInFromCurrency] = React.useState(true);
+  const [currencyValue1, setCurrencyValue1] = React.useState('RUB')
+  const [currencyValue2, setCurrencyValue2] = React.useState('USD')
 
-  // Вызываем API. Переводим полученный объект в массив, чтобы его размапить в select.
   React.useEffect(() => {
     axios
       .get(BASE_URL)
       .then((res) => {
-        setCurrency([...Object.keys(res.data.rates)]);
-        setCurrencyFrom(res.data.rates);
-        // setInputTo(res.data.rates.USD);
-        // console.log(res);
+        setCurrency((res.data.rates));
       })
       .catch((e) => console.log(e));
   }, []);
 
-  React.useEffect(() => {
-    axios
-      .get("https://ipapi.co/json")
-      .then((res) => {
-        setLocation(res.data.currency);
-      })
-      .catch((e) => console.log(e));
-  }, []);
+  // React.useEffect(() => {
+  //   axios
+  //     .get("https://ipapi.co/json")
+  //     .then((res) => {
+  //       setLocation(res.data.currency);
+  //     })
+  //     .catch((e) => console.log(e));
+  // }, []);
 
-  // console.log(location);
+  // console.log(location)
+  const handleChangeInputFrom = (count) => {
+    setInputTo(count * currency[currencyValue2] / currency[currencyValue1]);
+    setInputFrom(count);
+  }
 
-  const handleChangeValueFrom = (e) => {
-    setInputFrom(e.target.value);
-    setAmountInFromCurrency(true);
-  };
+  const handleChangeCurrency = (currency1) => {
+    setInputTo(inputFrom * currency[currencyValue2] / currency[currencyValue1]);
+    setCurrencyValue1(currency1);
+  }
 
-  const handleChangeValueTo = (e) => {
-    setInputFrom(e.target.value);
-    setAmountInFromCurrency(false);
-  };
+  const handleChangeInputTo = (count) => {
+    setInputFrom(count * currency[currencyValue1] / currency[currencyValue2]);
+    setInputTo(count);
+  }
 
-  React.useEffect(() => {
-    if (!currency) {
-      const value = () => {};
-    }
-  }, [currency]);
+  const handleChangeCurrencyTo = (currency2) => {
+    setInputFrom(inputTo * currency[currencyValue1] / currency[currencyValue2]);
+    setCurrencyValue2(currency2);
+  }
 
   return (
     <div className="App">
       <h1>Currency</h1>
       <CurrencyInputs
         currency={currency}
-        currencyInput={inputFrom}
-        change={(e) => setInputFrom(e.target.value)}
-        valueChange={handleChangeValueFrom}
-        // currencies={fromAmount}
+        currencyInputValue={inputFrom}
+        currencySelector={(e) => handleChangeCurrency(e.target.value)}
+        onChangeAmount={handleChangeInputFrom}
+        onChangeCurrencyType={(e) => setInputFrom(e.target.value)}
       />
       <CurrencyInputs
         currency={currency}
-        currencyInput={inputTo}
-        change={(e) => setInputTo(e.target.value)}
-        valueChange={handleChangeValueTo}
-        // currencies={toAmount}
+        currencyInputValue={inputTo}
+        currencySelector={(e) => handleChangeCurrencyTo(e.target.value)}
+        onChangeAmount={handleChangeInputTo}
+        onChangeCurrencyType={(e) => setInputTo(e.target.value)}
       />
     </div>
   );
