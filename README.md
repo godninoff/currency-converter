@@ -13,7 +13,8 @@
 - `npm i` - установить зависимости
 - `npm start` - для запуска
 
-### Ссылка: https://wp0slc-3000.preview.csb.app/
+### [Ссылка на приложение с кодом](https://codesandbox.io/p/github/godninoff/react-currency-converter/draft/awesome-http?file=%2Fsrc%2FCurrencyInputs.js&selection=%5B%7B%22endColumn%22%3A23%2C%22endLineNumber%22%3A47%2C%22startColumn%22%3A23%2C%22startLineNumber%22%3A47%7D%5D)
+
 
 ### Технологии:
 
