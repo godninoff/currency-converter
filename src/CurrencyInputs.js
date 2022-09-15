@@ -1,17 +1,19 @@
 import React from "react";
 
 const CurrencyInputs = (props) => {
-
-  const currencyArray = (Object.keys(props.currency))
+  const currencyArray = Object.keys(props.currency);
 
   return (
-    <div>
+    <div className="currency-section">
       <input
         type="number"
         value={props.currencyInputValue}
-        onChange={(e) => props.onChangeAmount(e.target.value)}
+        onChange={props.onChangeAmount}
       />
-      <select value={props.currencies} onChange={props.currencySelector}>
+      <select
+        value={props.currencySelector}
+        onChange={props.onChangeCurrencyType}
+      >
         {currencyArray.map((c) => {
           return (
             <option value={c} key={c}>
